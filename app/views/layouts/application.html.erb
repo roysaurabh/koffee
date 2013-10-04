@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Koffee</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+  <script type="text/javascript">
+  // This identifies your website in the createToken call below
+  //STRIPE_KEY in caps makes it global and depeding on which server 
+  //is up STRIPE_KEY populates public key related to that environment
+  Stripe.setPublishableKey('<%= STRIPE_KEY %>');
+  // ...
+</script>
+
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<header>
+	<h1><%= link_to "Koffee", root_path %></h1>
+
+	<nav>
+		<%# instead of linking up a bit of text link up this whole section b/w do & end%>
+		<%= link_to new_order_path do %>
+
+			<strong> <%= pluralize basket.size, "item" %> in your basket </strong>
+
+		<%end%>
+
+    <% if current_user.present?%>
+
+      <%= image_tag current_user.image %>
+      <%= current_user.name %>
+      
+      <%= link_to "Orders", orders_path %>
+      <%= link_to "Log out", session_path, method: :delete%>
+      <%else%>
+
+		<a href="/auth/facebook"> Sign in with Facebook</a>
+		<a href="/auth/twitter"> Sign in with Twitter</a>
+		<a href="/auth/linkedin"> Sign in with LinkedIn</a>
+    <%end%>
+
+
+	</nav>
+</header>
+<%= yield %>
+
+</body>
+</html>

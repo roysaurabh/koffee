@@ -1,0 +1,23 @@
+<h2>Our Products</h2>
+
+<% @products.each do |p|%>
+	
+	<div class="product">
+		<%= image_tag p.image(:medium) %>
+		<h3><%= link_to p.title, product_path(p) %></h3>
+
+		<p><%= quid p.price_in_pence %></p>
+
+		<p><%= link_to "Read More...", product_path(p) %></p>
+
+		<% # again, using p bcoz its a loop rather than a single one %>
+
+		<% if basket.include?(p.id) %>
+			<%= link_to "Remove from basket", product_basket_path(p), method: :delete %>
+		<%else%>
+			<%= link_to "Add to basket", product_basket_path(p), method: :post %>
+		<%end%>
+
+</div>
+<%end%>
+
